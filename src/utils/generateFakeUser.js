@@ -19,12 +19,3 @@ export const generateFakeUsers= (length)=> {
     return users
 }
 
-
-// export default function generateFakeUser() {
-//   return {
-//     id: faker.string.uuid(),
-//     username: faker.internet.userName(),
-//     avatar: faker.image.avatar(),
-//     company: faker.company.name(),
-//   }
-// }

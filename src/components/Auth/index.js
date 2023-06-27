@@ -1,23 +1,24 @@
 import React, { useContext, useState, useMemo } from 'react'
-import Lottie from 'react-lottie-player'
+import { useForm } from '@/hooks/useForm'
+import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext'
+import Image from 'next/image'
+
+import { auth, db, signInWithGoogle } from '@/lib/firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { collection, doc,getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore'
+
+import {handlePromise} from '@/utils/handlePromise'
+import LoadingOverlay from '../LoadingOverlay'
+import useFetchCurrentUser from '@/utils/fetchCurrentUser'
+
 import {AiFillFacebook} from 'react-icons/ai'
 import {FcGoogle} from 'react-icons/fc'
 import AuthAnimation from '../../../public/assets/animations/auth-page-animation.json'
-// import Button from '@/components/Button'
-import { useForm } from '@/hooks/useForm'
-import Image from 'next/image'
-// import Link from 'next/link'
+import Lottie from 'react-lottie-player'
+import { toast } from 'react-hot-toast'
 import img1 from '../../../public/assets/badges/google-play-badge.png'
 import img2 from '../../../public/assets/badges/microsoft-badge.png'
 import img3 from '../../../public/assets/badges/Instagram-logo.png'
-import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext'
-import { auth, db, signInWithGoogle } from '@/lib/firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import {handlePromise} from '@/utils/handlePromise'
-import { toast } from 'react-hot-toast'
-import LoadingOverlay from '../LoadingOverlay'
-import useFetchCurrentUser from '@/utils/fetchCurrentUser'
-import { collection, doc,getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore'
 
 
 export default function Auth() {
@@ -166,7 +167,7 @@ resetForm();
           loop
           animationData={AuthAnimation}
           play
-          className='sm:w-[500px] h-[500px] float-right '
+          className='sm:w-[500px] h-[500px] float-right sm:visible invisible'
           />
         </div>
 

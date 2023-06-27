@@ -1,24 +1,46 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { toast } from 'react-hot-toast';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext';
+import {db,storage} from '../../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { signOut } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
+import { uuidv4 } from '@firebase/util';
+import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore';
+
 import SideNav from '../Navigation';
 import Post from '../Post';
 import Modal from '../Modal';
-import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext';
-import {IoImagesOutline} from 'react-icons/io5';
-import {db,storage} from '../../lib/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { uuidv4 } from '@firebase/util';
-// import { v4 as uuidv4 } from 'uuid';
-import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore';
 import User from '../UserSec';
 import Suggestions from '../Suggestions';
 import Stories from '../Stories';
 
+import {Home, Add, Heart, Messenger, Search, Reels,} from '../SideBar/NavIcons'
+import {IoImagesOutline} from 'react-icons/io5';
+import {AiOutlineLogout} from 'react-icons/ai'
+import { toast } from 'react-hot-toast';
+import img3 from '../../../public/assets/badges/Instagram-logo.png'
+
 export default function Feed() {
   
+  const [file, setFile] = useState('');
+  const [media,setMedia] = useState({
+    src:'',
+    isUploading:false,
+    caption:'',
+  });
+
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const {isUploadPostModalOpen} = useContext(GlobalContext);
   const dispatch = useContext(GlobalDispatchContext);
-  
+
+  const currentImage = useRef(null);
+
+  const {user} = useContext(GlobalContext)
 
   const closeModal = ()=> {
         dispatch({
@@ -29,46 +51,17 @@ export default function Feed() {
         });
 }
 
-  const [file, setFile] = useState('');
-  const [media,setMedia] = useState({
-    src:'',
-    isUploading:false,
-    caption:'',
-  });
-
-  useEffect(() => {
-    const reader = new FileReader();
-
-    const handleEvent = (e)=> {
-      switch (e.type) {
-        case 'load':
-          return setMedia((prev)=> ({
-            ...prev,
-            src:reader.result
-          }));
-        case 'error':
-          console.log(e);
-          return toast.error('something not working');
-        default:
-          return;
-      }
-    };
-
-    if (file) {
-      reader.addEventListener('load', handleEvent);
-      reader.addEventListener('error', handleEvent);
-      reader.readAsDataURL(file);
+const handleClickIcon = ()=> {
+    if('Create') {
+        dispatch({
+            type:'SET_IS_UPLOAD_POST_MODAL_OPEN', 
+            payload: {
+                isUploadPostModalOpen:true
+            }
+        })
     }
+}
 
-    return ()=> {
-      reader.removeEventListener('load', handleEvent);
-      reader.removeEventListener('error', handleEvent);
-    }
-  }, [file]);
-
-  const currentImage = useRef(null);
-
-  const {user} = useContext(GlobalContext)
 
   const handlePostMedia = async (url)=> {
     const postId = uuidv4();
@@ -125,8 +118,11 @@ export default function Feed() {
     currentImage.current.src=''
   }
 
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const handleLogOut = async ()=> {
+    await signOut(auth)
+    window.location.reload()
+
+}
 
   useEffect(() => {
     setLoading(true)
@@ -138,16 +134,47 @@ export default function Feed() {
       setLoading(false)
     })
   }, [])
-  console.log(posts)
+  // console.log(posts)
   
+  useEffect(() => {
+    const reader = new FileReader();
+
+    const handleEvent = (e)=> {
+      switch (e.type) {
+        case 'load':
+          return setMedia((prev)=> ({
+            ...prev,
+            src:reader.result
+          }));
+        case 'error':
+          console.log(e);
+          return toast.error('something not working');
+        default:
+          return;
+      }
+    };
+
+    if (file) {
+      reader.addEventListener('load', handleEvent);
+      reader.addEventListener('error', handleEvent);
+      reader.readAsDataURL(file);
+    }
+
+    return ()=> {
+      reader.removeEventListener('load', handleEvent);
+      reader.removeEventListener('error', handleEvent);
+    }
+  }, [file]);
+
 
   return (
-<div className="flex flex-row w-full h-full ">
+<div className="flex flex-row w-full h-full">
 
   {/* <!-- First Column - Side Navbar --> */}
-  <div className="flex-[.30]">
+  <div className="flex-[.30] invisible sm:visible">
     <SideNav/>
   </div>
+
 
   <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
     <div className='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
@@ -184,10 +211,29 @@ export default function Feed() {
     </div>
   </Modal>
 
-  <div className='grid grid-cols-3 gap-[50px] max-w-screen-lg mx-auto mt-10 w-full '>
+  <div className='grid sm:grid-cols-3 grid-cols-1 gap-[50px] max-w-screen-lg mx-auto mt-10 w-full'>
     <div className='w-full col-span-2 flex flex-col space-y-5'>
+
+    <div className='fixed sm:hidden top-0 left-0 z-50 w-full h-14 bg-white border-b border-gray-800'>
+    <Image alt='Instagram-logo' src={img3} width={150} className=' -mb-14 sm:mb-0 p-4'/>
+
+    <div className='flex items-center justify-center ml-64 gap-4'>
+    <button onClick={handleLogOut} type="button" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm gap-2 px-4 py-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-28">
+  <AiOutlineLogout size={20}/>
+  Log out
+</button>
+    <div onClick={handleClickIcon} className='flex items-center justify-center'>
+    <Add  size={30}/>
+    </div>
+    <Heart size={30}/>
+    </div>
+
+
+
+    </div>
+
     {/* stories section */}
-      <section className=''>
+      <section className='sm:mt-0 mt-5 '>
       <Stories />
       </section>
       {/* posts section */}
@@ -198,15 +244,54 @@ export default function Feed() {
         ))
       }
       </section>
+
+
   </div>
    {/* this is our side nav that has mini prof and suggest */}
-  <div className='col-span-1'>
+  <div className='col-span-1 invisible sm:visible'>
   <User username = {user.username}/>
   <div>
   <Suggestions/>
   </div>
     </div>
+    
     </div>
+    <section className=' visible sm:invisible'>
+      <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-800">
+    <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
+        <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group">
+            <Home size={30}/>
+            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Home</span>
+        </button>
+        <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+<Search size={30}/>
+            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Search</span>
+        </button>
+        <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+<Reels size={30}/>
+            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Reels</span>
+        </button>
+        <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+            <Messenger size={30}/>
+            <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Messenger</span>
+        </button>
+        <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
+        <Link href={`/${user.username}`} className=''>
+    {/* <div className="flex items-center justify-between col-span-1"> */}
+    <Image
+        className="rounded-full flex ml-[4px]"
+        src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+        alt="user"
+        width={30}
+        height={35}
+        />
+    {/* </div> */}
+    <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Profile</span>
+</Link>
+        </button>
+    </div>
+</div>
+      </section>
 </div>
   )
 }

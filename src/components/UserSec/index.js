@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function User({username}) {
   return (
-    <Link href={`/p/${username}`} className='grid grid-cols-4 gap-4 mb-6 items-center pt-3 '>
+    <Link href={`/${username}`} className='grid grid-cols-4 gap-4 mb-6 items-center pt-3 '>
     <div className="flex items-center justify-between col-span-1">
     <Image
         className="rounded-full w-16 flex mr-3"
@@ -12,9 +12,6 @@ export default function User({username}) {
         alt="user"
         width={50}
         height={50}
-        //   onError={(e) => {
-        //     e.target.src = DEFAULT_IMAGE_PATH;
-        //   }}
         />
     </div>
     <div className="col-span-3">

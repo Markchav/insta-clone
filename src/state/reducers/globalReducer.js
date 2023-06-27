@@ -30,6 +30,12 @@ export const globalReducer = (state,action)=> {
                 isUploadPostModalOpen: action.payload.isUploadPostModalOpen
             }
         }
+        case 'SET_IS_PROFILE_POST_MODAL_OPEN': {
+            return {
+                ...state,
+                isProfilePostModalOpen: action.payload.isProfilePostModalOpen
+            }
+        }
         default:{
             throw Error('unknown action' + action.type)
         }

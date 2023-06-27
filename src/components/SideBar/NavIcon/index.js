@@ -1,10 +1,11 @@
-import { GlobalDispatchContext } from '@/state/context/GlobalContext'
 import React, { useContext } from 'react'
+import { GlobalDispatchContext } from '@/state/context/GlobalContext'
+
 
 export default function NavIcon({Icon,name}) {
     const dispatch = useContext(GlobalDispatchContext)
 
-    const handleClickIcon = ()=> {
+    const handleClickIcon = async ()=> {
         if(name === 'Create') {
             dispatch({
                 type:'SET_IS_UPLOAD_POST_MODAL_OPEN', 
@@ -12,6 +13,16 @@ export default function NavIcon({Icon,name}) {
                     isUploadPostModalOpen:true
                 }
             })
+        }
+        if(name === 'Home') {
+            // dispatch({
+            //     type:'SET_LOADING', 
+            //     payload: {
+            //         isLoading:true
+            //     }
+            // })
+            // <LoadingOverlay/>
+            window.location= '/'
         }
     }
     

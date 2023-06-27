@@ -1,18 +1,18 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { GlobalContext } from '@/state/context/GlobalContext'
+
+import { doc, setDoc, collection, query, where, onSnapshot, deleteDoc, updateDoc, serverTimestamp, orderBy } from 'firebase/firestore'
+import { db, auth } from '@/lib/firebase'
+import {uuidv4} from '@firebase/util';
+
 import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import {BsDot,BsChat,BsBookmark, BsFillBookmarkFill} from 'react-icons/bs'
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
-// import {TiLocationArrowOutline} from 'react-icons/ti'
 import {RiShareForwardLine} from 'react-icons/ri'
-import Image from 'next/image'
-import { db, auth } from '@/lib/firebase'
-import { doc, setDoc, collection, query, where, onSnapshot, deleteDoc, updateDoc, serverTimestamp, orderBy } from 'firebase/firestore'
-import {uuidv4} from '@firebase/util';
-import { GlobalContext } from '@/state/context/GlobalContext'
 import {HiOutlineChatBubbleOvalLeft} from 'react-icons/hi2'
-// import data from '@emoji-mart/data'
-// import Picker from '@emoji-mart/react'
-import { formatDistance } from 'date-fns'
+
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -23,6 +23,10 @@ export default function Post({id, image, username, caption, likesCount, savedCou
   const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState([]);
   const [isBookmarked, setIsBookmark]= useState(false);
+
+  const comment = useRef(null);
+
+  const {user}= useContext(GlobalContext)
   // const [showEmoji,setShowEmoji]=useState(false)
   // const [input,setInput] = useState('')
 
@@ -81,7 +85,8 @@ if(isLiked) {
     const postBookmark = {
       postId:id, 
       userId:auth.currentUser.uid,
-      username
+      username:user.username,
+      image
     }
 
     const bookmarkRef = doc(db,`saved/${id}_${auth.currentUser.uid}`);
@@ -112,6 +117,27 @@ if(isLiked) {
     }
   }
 
+    const handlePostComment = async (e)=> {
+    e.preventDefault()
+
+    const commentData = {
+      id:uuidv4(),
+      username:user.username,
+      comment:comment.current.value,
+      createdAt: serverTimestamp()
+    }
+
+    comment.current.value = '';
+
+    const commentRef= doc(db,`posts/${id}/comments/${commentData.id}`)
+
+    await setDoc(commentRef, commentData)
+
+
+    // setInput('');
+    // setShowEmoji(false)
+    
+  }
 
   useEffect(() => {
     const likesRef = collection(db,'likes');
@@ -135,6 +161,14 @@ if(isLiked) {
       setComments(comment);
     })
 
+    // const postRef = doc(db, 'posts', postId) 
+    const postsCollection =collection(db,'posts') 
+    const q = query(postsCollection, where('id','==', id))
+    onSnapshot(q, (snapshot)=> {
+      const posts = snapshot.docs.map((doc)=> doc.data())
+      setPosts(posts);
+      // console.log(posts)
+    })
 
     const bookmarksRef = collection(db, 'saved');
     const bookmarksQuery = query(bookmarksRef, where('postId','==', id), where('userId','==',auth.currentUser.uid))
@@ -155,63 +189,62 @@ if(isLiked) {
     }
   }, [id]);
 
-  const comment = useRef(null);
-
-  const handleClickChat= ()=> document.getElementById(`comment ${id}`)
-
-  const {user}= useContext(GlobalContext)
-
-  const handlePostComment = async (e)=> {
-    e.preventDefault()
-
-    const commentData = {
-      id:uuidv4(),
-      username:user.username,
-      comment:comment.current.value,
-      createdAt: serverTimestamp()
-    }
-
-    comment.current.value = '';
-
-    const commentRef= doc(db,`posts/${id}/comments/${commentData.id}`)
-
-    await setDoc(commentRef, commentData)
 
 
-    // setInput('');
-    // setShowEmoji(false)
-    
-  }
+//   window.onload=function(){
+//     document.getElementById('my_button').onclick = function() {
+//         document.getElementsByTagName('input').focus();
+        
+//     };
+// }
 
 
   return (
-    <div className='flex flex-col w-[500px] mx-auto pb-2 border-b border-gray-300 '>
+    <div className='flex flex-col w-[500px] mx-auto pb-2 border-b border-gray-300'>
     <div className='flex bg-white p-2 justify-between items-center'>
       <div className='flex justify-center items-center space-x-2'>
-      <div className='h-10 w-10 bg-black border-2  rounded-full'/>
+{/* Profile img */}
+      <div className='h-10 w-10 bg-black border-2 rounded-full'>
+      <Link href={`/${username}`}>
+      <Image
+        className="rounded-full w-16 flex mr-3"
+        src={`/../public/assets/images/avatars/${username}.jpeg`}
+        alt="user"
+        width={50}
+        height={50}
+        />
+      </Link>
+
+      </div>
+      
       <div className='flex justify-center items-center text-sm '>
         {/* potential link to go to user profiles */}
         <div className='text-black cursor-pointer hover:text-black/50 font-semibold'>
-        {username}
+        <Link href={`/${username}`}>{username}</Link>
+        
         </div>
       <BsDot className='text-black/50'/> <span className='text-black/50'>
+      {/* Timeline of posted post */}
       {
-        comments.map((commentData)=>(
-          <div key={commentData.id} className='flex space-x-2'>
-            {/* <div>{formatDistance(commentData.createdAt.toDate(), new Date())} ago</div> */}
+        posts.map((post)=>(
+          <div key={post.id} className='flex space-x-2'>
+
             <div>
-              {dayjs(commentData.createdAt && commentData.createdAt.toDate()).fromNow()}
+              {dayjs(post.createdAt && post.createdAt.toDate()).fromNow()}
             </div>
           </div>
         ))
       }
-      </span></div>
+      </span>
+      </div>
       </div>
       <div className='w-4 select-none'><BiDotsHorizontalRounded className='text-lg text-black cursor-pointer hover:text-black/50'/></div>
     </div>
+    {/* Image */}
     <div className='aspect-[16/14] w-full h-[580px] relative flex items-center justify-center'>
-      <Image src={image} alt={caption} fill className='object-contain' />
+      <Image src={image} alt={caption} fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' className='object-contain w-full' />
     </div>
+{/* Icons  */}
     <div className='flex justify-between p-2 text-lg'>
       <div className='flex space-x-2'>
         <div onClick={handleLikePost}>
@@ -222,7 +255,7 @@ if(isLiked) {
         
         </div>
 
-        <div onClick={handleClickChat}><BsChat size={23} className='-scale-x-90 text-black cursor-pointer hover:text-black/50 '/></div>
+        <div><BsChat size={23} className='-scale-x-90 text-black cursor-pointer hover:text-black/50 '/></div>
         <div ><RiShareForwardLine size={25} className='text-black cursor-pointer hover:text-black/50'/></div>
       </div>
 
@@ -234,26 +267,37 @@ if(isLiked) {
       </div>
 
     </div>
-    <div className='px-2'>
+    <div className='px-2 text-[15px]'>
       {likesCount ? `${likesCount} likes` : 'Be the first to like!'}
     </div>
-    <div className='px-2 flex gap-2'>
-    <div className='font-semibold'>
-      {username}
+
+    <div className='px-2 flex gap-2 text-[15px]'>
+    <div className='font-semibold '>
+    <Link href={`/${username}`} className=''>{username}</Link>
+   
+      
     </div>
       {caption}
     </div>
 
     <div className='p-2'>
     <div className='flex flex-col space-y-1'>
-    {
+    {comments.length > 0 && (
+      <div className='h-12 overflow-y-scroll scrollbar-thumb-black scrollbar-thin'>
+      {
         comments.map((commentData)=>(
-          <div key={commentData.id} className='flex space-x-2'>
-            <div className='font-medium'>{commentData.username}</div>
-            <div>{commentData.comment}</div>
+          <div key={commentData.id} className='flex'>
+          <div className='flex space-x-2'>
+          <div className='font-medium text-[15px]'><Link href={`/${commentData.username}`} className=''>{commentData.username}</Link></div>
+            <div className='text-[15px]'>{commentData.comment}</div>
+          </div>
+            {/* <div className='text-black/50 text-xs justify-center items-center flex '>{dayjs(commentData.createdAt && commentData.createdAt.toDate()).fromNow()}</div> */}
           </div>
         ))
       }
+      </div>
+    )}
+    
     </div>
     </div>
     <form onSubmit={handlePostComment} className='w-full'>
@@ -276,7 +320,7 @@ if(isLiked) {
       <Picker data={data} onEmojiSelect={addEmoji} emojiSize={20} emojiButtonSize={34} maxFrequentRows={0}/>
       </div>} */}
 
-      <button className='text-[#0095F6] font-semibold hover:text-[#00376B]'>
+      <button className='text-[#0095F6] font-semibold hover:text-[#00376B]' >
       Post
       </button>
     </div>
