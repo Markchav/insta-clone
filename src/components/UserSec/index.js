@@ -8,7 +8,7 @@ export default function User({username}) {
     <div className="flex items-center justify-between col-span-1">
     <Image
         className="rounded-full w-16 flex mr-3"
-        src={`/../public/assets/images/avatars/${username}.jpeg`}
+        src={`/assets/images/avatars/${username}.jpeg`}
         alt="user"
         width={50}
         height={50}

@@ -12,7 +12,8 @@ import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } 
 
 import SideNav from '../Navigation';
 import Post from '../Post';
-import Modal from '../Modal';
+// import Modal from '../Modal';
+import ModalLayout from '../Modal';
 import User from '../UserSec';
 import Suggestions from '../Suggestions';
 import Stories from '../Stories';
@@ -176,7 +177,7 @@ const handleClickIcon = ()=> {
   </div>
 
 
-  <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
+  <ModalLayout closeModal={closeModal} isOpen={isUploadPostModalOpen}>
     <div className='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
       <div className='w-full pb-2 font-semibold text-center border-b border-black'>
         Create new post
@@ -209,7 +210,7 @@ const handleClickIcon = ()=> {
       }
         </div>
     </div>
-  </Modal>
+  </ModalLayout>
 
   <div className='grid sm:grid-cols-3 grid-cols-1 gap-[50px] max-w-screen-lg mx-auto mt-10 w-full'>
     <div className='w-full col-span-2 flex flex-col space-y-5'>
@@ -280,7 +281,7 @@ const handleClickIcon = ()=> {
     {/* <div className="flex items-center justify-between col-span-1"> */}
     <Image
         className="rounded-full flex ml-[4px]"
-        src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+        src={`/assets/images/avatars/${user.username}.jpeg`}
         alt="user"
         width={30}
         height={35}

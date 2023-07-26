@@ -3,10 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router'
-
+import Modal from 'react-modal';
 
 import SideNav from '/src/components/Navigation';
-import Modal from '/src/components/Modal';
+import ModalLayout from '/src/components/Modal';
 import ProfilePost from '@/components/ProfilePosts';
 
 import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext';
@@ -22,7 +22,7 @@ import {Home, Add, Heart, Messenger, Search, Reels, Settings} from '/src/compone
 import {IoImagesOutline} from 'react-icons/io5';
 import {AiOutlineLogout} from 'react-icons/ai'
 import {BiDotsHorizontalRounded} from 'react-icons/bi'
-
+import {RiShareForwardLine} from 'react-icons/ri'
 import {BsChat,BsBookmark, BsFillBookmarkFill} from 'react-icons/bs'
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import { toast } from 'react-hot-toast';
@@ -33,6 +33,8 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
+Modal.setAppElement('#__next');
+
 export default function UserProfile({id, image, caption, likesCount, savedCount}) {
 
   const [posts, setPosts] = useState([]);
@@ -40,7 +42,6 @@ export default function UserProfile({id, image, caption, likesCount, savedCount}
   const [comments, setComments] = useState([]);
   const [isBookmarked, setIsBookmark]= useState(false);
   const [loading, setLoading] = useState(false);
-
   const [file, setFile] = useState('');
   const [media,setMedia] = useState({
     src:'',
@@ -56,9 +57,7 @@ export default function UserProfile({id, image, caption, likesCount, savedCount}
     const router = useRouter()
     const username = router.query.username
 
-    const postId = router.query.id
-
-
+    // const postId = router.query.id
 
 
     const {isUploadPostModalOpen, isProfilePostModalOpen, user} = useContext(GlobalContext);
@@ -74,6 +73,15 @@ export default function UserProfile({id, image, caption, likesCount, savedCount}
         });
 }
 
+const closeProfileModal = ()=> {
+  dispatch({
+      type:'SET_IS_PROFILE_POST_MODAL_OPEN', 
+      payload: {
+          isProfilePostModalOpen:false
+      }
+  });
+}
+
 const handleClickIcon = ()=> {
     if('Create') {
         dispatch({
@@ -85,14 +93,6 @@ const handleClickIcon = ()=> {
     }
 }
 
-const closeProfileModal = ()=> {
-  dispatch({
-      type:'SET_IS_PROFILE_POST_MODAL_OPEN', 
-      payload: {
-          isProfilePostModalOpen:false
-      }
-  });
-}
 
 const handlePostOpen = ()=> {
   dispatch({
@@ -385,7 +385,7 @@ const handleLogOut = async ()=> {
   <SideNav/>
 </div>
 
-<Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
+<ModalLayout closeModal={closeModal} isOpen={isUploadPostModalOpen}>
   <div className='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
     <div className='w-full pb-2 font-semibold text-center border-b border-black'>
       Create new post
@@ -418,9 +418,9 @@ const handleLogOut = async ()=> {
     }
       </div>
   </div>
-</Modal>
+</ModalLayout>
 
-<Modal closeModal={closeProfileModal} isOpen={isProfilePostModalOpen}>
+{/* <ModalLayout closeModal={closeProfileModal} isOpen={isProfilePostModalOpen}>
 <div className="w-screen h-screen max-w-6xl max-h-[90vh] flex flex-row">
                     <div className="w-3/5">
                         <Image src={img4} className="" alt=""/>
@@ -490,20 +490,6 @@ const handleLogOut = async ()=> {
                                                 </span>
                                                 {commentData.comment}
                                             </div>
-                                            {/* <a className={`absolute top-0 right-0 block float-right text-xs cursor-pointer ${comment.is_liked
-                                                        ? "text-red-600"
-                                                        : ""
-                                                }`}
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={[
-                                                        comment.is_liked
-                                                            ? "fas"
-                                                            : "far",
-                                                        "heart",
-                                                    ]}
-                                                />
-                                            </a> */}
                                         </div>
                                     </div>
                                 ))}
@@ -521,9 +507,9 @@ const handleLogOut = async ()=> {
                                     <a className="mr-3 cursor-pointer">
                                     <BsChat size={23} className='-scale-x-90 text-black cursor-pointer hover:text-black/50 '/>
                                     </a>
-                                    {/* <a className="cursor-pointer">
+                                    <a className="cursor-pointer">
                                     <RiShareForwardLine size={25} className='text-black cursor-pointer hover:text-black/50'/>
-                                    </a> */}
+                                    </a>
                                 </div>
                                 <div onClick={handleBookmark} className="">
                                 {
@@ -536,14 +522,12 @@ const handleLogOut = async ()=> {
                             {likesCount ? `${likesCount} likes` : 'Be the first to like!'}
                             </div>
                             <div className="text-gray-500 uppercase px-3 text-xs tracking-wide my-3">
-                                {/* {post.date} */} date
+                            date
                             </div>
 
                             <form onSubmit={handlePostComment} className="p-3 flex flex-row border-t">
                                 <div className="flex items-center">
-                                    {/* <a className="text-2xl" href="#">
-                                        FACE
-                                    </a> */}
+
                                 </div>
                                 <div className="flex-1 pr-3 py-1">
                                     <input
@@ -567,7 +551,13 @@ const handleLogOut = async ()=> {
                         </div>
                     </div>
                 </div>
-</Modal>
+</ModalLayout> */}
+
+{/* <Modal isOpen={!!router.query.id} onRequestClose={()=>router.push(`/${username}`)} portalClassName='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
+  <div className=''>
+  IN the modal {}
+  </div>
+</Modal> */}
 
 <div className='grid sm:grid-cols-3 grid-cols-1 gap-[50px] max-w-screen-lg mx-auto mt-10 w-full'>
     <div className='w-full col-span-2 flex flex-col space-y-5'>
@@ -647,7 +637,7 @@ Log out</Link>
         >
             <Image
             className="h-40 w-40 rounded-full"
-            src={`/../public/assets/images/avatars/${username}.jpeg`}
+            src={`/assets/images/avatars/${username}.jpeg`}
             alt=''
             width={200}
             height={200}
@@ -724,10 +714,20 @@ Log out</Link>
     {/* <!--post images--> */}
    
     {/* onClick={()=>router.push(`/${username}/${postId}`)} */}
-            <div  onClick={handlePostOpen} className='grid grid-cols-3 gap-1 lg:gap-6 pt-5 pb-10 cursor-pointer'>
+    {/* onClick={handlePostOpen} */}
+
+            <div   className='grid grid-cols-3 gap-1 lg:gap-6 pt-5 pb-10 cursor-pointer'>
             
-            {posts.map((post)=> 
-              <ProfilePost key={post.id} url={post.image}/>
+            {posts.map((post)=> (
+           
+              <Link href={`/${username}/[id]?id=${post.id}`}  as={`/${username}/${post.id}`} key={post.id}>
+            <ProfilePost url={post.image}/>
+            </Link>
+
+
+            )
+           
+
             )}
             </div>
             {!posts || (posts.length ===0 && <p className='flex mx-auto justify-center content-center mt-10 text-2xl'>No Photos Yet</p>)}
@@ -766,7 +766,7 @@ Log out</Link>
   {/* <div className="flex items-center justify-between col-span-1"> */}
   <Image
       className="rounded-full flex ml-[2px]"
-      src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+      src={`/assets/images/avatars/${user.username}.jpeg`}
       alt="user"
       width={40}
       height={40}

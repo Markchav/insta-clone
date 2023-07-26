@@ -88,7 +88,7 @@ export default function SideNav() {
     <button type="button"  className="flex flex-row items-center">
     <Image
         className="rounded-full flex"
-        src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+        src={`/assets/images/avatars/${user.username}.jpeg`}
         alt="user"
         width={25}
         height={25}

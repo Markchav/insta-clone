@@ -11,7 +11,6 @@ import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import {BsDot,BsChat,BsBookmark, BsFillBookmarkFill} from 'react-icons/bs'
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import {RiShareForwardLine} from 'react-icons/ri'
-import {HiOutlineChatBubbleOvalLeft} from 'react-icons/hi2'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -208,7 +207,7 @@ if(isLiked) {
       <Link href={`/${username}`}>
       <Image
         className="rounded-full w-16 flex mr-3"
-        src={`/../public/assets/images/avatars/${username}.jpeg`}
+        src={`/assets/images/avatars/${username}.jpeg`}
         alt="user"
         width={50}
         height={50}

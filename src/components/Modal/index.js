@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 // import {AiOutlineClose} from 'react-icons/ai'
 import { Fragment } from 'react'
 
-export default function Modal({children, isOpen, closeModal}) {
+export default function ModalLayout({children, isOpen, closeModal}) {
 
 return (
     <>
