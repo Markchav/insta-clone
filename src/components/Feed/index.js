@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import Head from 'next/head';
 import { GlobalContext, GlobalDispatchContext } from '@/state/context/GlobalContext';
 import {db,storage} from '../../lib/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -170,7 +170,13 @@ const handleClickIcon = ()=> {
 
   return (
 <div className="flex flex-row w-full h-full">
+<Head>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=0.79, maximum-scale=0.79, user-scalable=no"
+          />
 
+    </Head>
   {/* <!-- First Column - Side Navbar --> */}
   <div className="flex-[.30] invisible sm:visible">
     <SideNav/>
