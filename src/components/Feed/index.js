@@ -170,13 +170,13 @@ const handleClickIcon = ()=> {
 
   return (
 <div className="flex flex-row w-full h-full">
-<Head>
+{/* <Head>
     <meta
             name="viewport"
             content="width=device-width, initial-scale=0.79, maximum-scale=0.79, user-scalable=no"
           />
 
-    </Head>
+    </Head> */}
   {/* <!-- First Column - Side Navbar --> */}
   <div className="flex-[.30] invisible sm:visible">
     <SideNav/>

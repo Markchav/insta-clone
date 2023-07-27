@@ -366,10 +366,10 @@ const handleLogOut = async ()=> {
     <div className="flex flex-row w-full h-full">
     <Head>
     <title>{` @${username} | Instagram`}</title>
-    <meta
+    {/* <meta
             name="viewport"
             content="width=device-width, initial-scale=0.66, maximum-scale=0.66, user-scalable=no"
-          />
+          /> */}
           
     </Head>
 {/* <!-- First Column - Side Navbar --> */}
