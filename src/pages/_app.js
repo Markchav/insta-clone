@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
     			<Head>
 				<link rel='icon' href='/favicon/favicon.ico' />
         <title>Instagram</title>
-        <meta name="viewport" content="width=1000"></meta>
+        <meta name="viewport" content="width=100"></meta>
 			    </Head>
       <Toaster/>
       <Component {...pageProps} />
