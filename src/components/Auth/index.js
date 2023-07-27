@@ -13,12 +13,12 @@ import useFetchCurrentUser from '@/utils/fetchCurrentUser'
 
 import {AiFillFacebook} from 'react-icons/ai'
 import {FcGoogle} from 'react-icons/fc'
-import AuthAnimation from '../../../public/assets/animations/auth-page-animation.json'
+import AuthAnimation from '/public/assets/animations/auth-page-animation.json'
 import Lottie from 'react-lottie-player'
 import { toast } from 'react-hot-toast'
-import img1 from '../../../public/assets/badges/google-play-badge.png'
-import img2 from '../../../public/assets/badges/microsoft-badge.png'
-import img3 from '../../../public/assets/badges/Instagram-logo.png'
+import img1 from '/public/assets/badges/google-play-badge.png'
+import img2 from '/public/assets/badges/microsoft-badge.png'
+import img3 from '/public/assets/badges/Instagram-logo.png'
 
 
 export default function Auth() {
@@ -246,12 +246,12 @@ resetForm();
         <ul className='flex items-center justify-center space-x-2 -ml-2 -mt-2'>
           <li>
           <a href='https://play.google.com/store/apps/details?id=com.instagram.android&referrer=utm_source%3Dinstagramweb%26utm_campaign%3DloginPage%26ig_mid%3D780AE948-5543-43E2-866D-A036B3F5C567%26utm_content%3Dlo%26utm_medium%3Dbadge&pli=1' className='items-center justify-center flex' target="_blank" rel="noopener noreferrer">
-          <Image priority src={img1} alt='google play' width={150} height={150} />
+          <Image priority src={img1} alt='google play' width={150} height={150}  />
           </a>
           </li>
           <li>
           <a href='https://www.microsoft.com/store/productId/9NBLGGH5L9XT' className='items-center justify-center flex' target="_blank" rel="noopener noreferrer">
-          <Image src={img2} alt='google play' width={108} height={200}/>
+          <Image src={img2} alt='microsoft' width={108} height={200} />
           </a>
           </li>
         </ul>

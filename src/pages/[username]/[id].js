@@ -550,25 +550,50 @@ Log out</Link>
 {/* 
 {id && <ModalPortal component={ModalData}/>} */}
 
-<div className="w-screen h-screen max-w-6xl max-h-[90vh] flex flex-row">
-                    <div className="w-3/5 justify-center">
-                    {posts.map((post)=> (
-        <div key={post.id} className='aspect-[16/14] w-full h-[580px] relative flex items-center justify-center'>
-      <Image src={post.image} alt={post.caption} fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' className='object-contain w-full mt-20' />
-    </div>
-    
-      )
-      )}
-                    </div>
-
-                    <div className="w-2/5 relative pt-16">
-                        <div className="absolute top-0 w-full p-3 flex flex-row border-b">
+<div className="w-screen h-screen max-w-6xl sm:max-h-[90vh] flex sm:flex-row flex-col">
+                    <div className="sm:w-3/5 w-full h-full justify-center">
+                                            <div className="absolute top-0  w-full p-3 flex flex-row border-b sm:hidden">
                             <div className="flex-1">
                             {posts.map((post)=> (
                               <Link key={post.id} href={`/${post.username}`} className="">
                                     <Image
                                         className="rounded-full w-8 max-w-none inline"
-                                        src={`/../public/assets/images/avatars/${post.username}.jpeg`}
+                                        src={`/assets/images/avatars/${post.username}.jpeg`}
+                                        alt=""
+                                        width={50}
+                                        height={50}
+                                    />{" "}
+                                    <span className="font-medium text-sm ml-2">
+                                        {post.username}
+                                    </span>
+                                </Link>
+                            ))}
+
+                            </div>
+                            <div className="">
+                                <a className="" >
+                                    <BiDotsHorizontalRounded className='text-lg text-black cursor-pointer hover:text-black/50'/>
+                                </a>
+                            </div>
+                        </div>
+                    {posts.map((post)=> (
+        <div key={post.id} className='aspect-[16/14] w-full h-[580px] relative flex items-center justify-center'>
+      <Image src={post.image} alt={post.caption} fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' className='object-contain w-full mt-20' priority />
+    </div>
+    
+      )
+      )}
+                    </div>
+                    
+
+                    <div className="sm:w-2/5 w-full relative pt-16">
+                        <div className="absolute top-0 w-full p-3 flex flex-row border-b sm:visible invisible">
+                            <div className="flex-1">
+                            {posts.map((post)=> (
+                              <Link key={post.id} href={`/${post.username}`} className="">
+                                    <Image
+                                        className="rounded-full w-8 max-w-none inline"
+                                        src={`/assets/images/avatars/${post.username}.jpeg`}
                                         alt=""
                                         width={50}
                                         height={50}
@@ -593,7 +618,7 @@ Log out</Link>
                                 <div>
                                     <Image
                                     className="rounded-full w-8  max-w-none inline"
-                                    src={`/../public/assets/images/avatars/${post.username}.jpeg`}
+                                    src={`/assets/images/avatars/${post.username}.jpeg`}
                                     alt="user"
                                     width={50}
                                     height={50}
@@ -712,7 +737,7 @@ Log out</Link>
       <div className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-800">
     <div className="grid h-full max-w-lg grid-cols-5 mx-auto font-medium">
         <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group">
-            <Home size={30}/>
+        <Link href='/'> <Home size={30}/></Link>
             <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Home</span>
         </button>
         <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
@@ -729,15 +754,15 @@ Log out</Link>
         </button>
         <button type="button" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 group">
         <Link href={`/${user.username}`} className=''>
-    {/* <div className="flex items-center justify-between col-span-1"> */}
+
     <Image
         className="rounded-full flex ml-[4px]"
-        src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+        src={`/assets/images/avatars/${user.username}.jpeg`}
         alt="user"
         width={30}
         height={35}
         />
-    {/* </div> */}
+
     <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Profile</span>
 </Link>
         </button>

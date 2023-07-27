@@ -164,19 +164,23 @@ const handleClickIcon = ()=> {
 
 
   useEffect(() => {
-    setLoading(true)
-    const postsCollection =collection(db,'posts')
-    const q = query(postsCollection, where('username','==',username))
-    onSnapshot(q, (snapshot)=> {
-      const posts = snapshot.docs.map((doc)=> doc.data())
-      setPosts(posts)
-      setLoading(false)
-    })
+    if(username) {
+      setLoading(true)
+      const postsCollection =collection(db,'posts')
+      const q = query(postsCollection, where('username','==',username))
+      onSnapshot(q, (snapshot)=> {
+        const posts = snapshot.docs.map((doc)=> doc.data())
+        setPosts(posts)
+        setLoading(false)
+      })
+    }
+
   }, [username])
 
 
   useEffect(()=> {
-setLoading(true)
+    if(username) {
+      setLoading(true)
 const savedCollection = collection(db,'saved')
 const q = query(savedCollection, where('username', '==', username))
 onSnapshot(q, (snapshot)=> {
@@ -184,6 +188,8 @@ onSnapshot(q, (snapshot)=> {
   setBookmarkedPosts(saved)
   setLoading(false)
 })
+    }
+
   }, [username])
 
   useEffect(() => {
@@ -202,7 +208,7 @@ onSnapshot(q, (snapshot)=> {
 </div>
 
 <Head>
-    <title>@{username} | Instagram</title>
+    <title>{` @${username} | Instagram`}</title>
     </Head>
 
 <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
@@ -321,7 +327,7 @@ Log out</Link>
         >
             <Image
             className="h-40 w-40 rounded-full"
-            src={`/../public/assets/images/avatars/${username}.jpeg`}
+            src={`/assets/images/avatars/${username}.jpeg`}
             alt=''
             width={200}
             height={200}
@@ -401,8 +407,8 @@ Log out</Link>
     {/* <!--post images--> */}
 
             <div className='grid grid-cols-3 gap-1 lg:gap-6 pt-5 pb-10'>
-            {bookmarkedPosts.map((post)=> 
-              <ProfileSaved key={post.id} url={post.image}/>
+            {bookmarkedPosts.map((post,id)=> 
+              <ProfileSaved key={id} url={post.image}/>
             )}
             </div>
 </div>
@@ -439,7 +445,7 @@ Log out</Link>
   {/* <div className="flex items-center justify-between col-span-1"> */}
   <Image
       className="rounded-full flex ml-[2px]"
-      src={`/../public/assets/images/avatars/${user.username}.jpeg`}
+      src={`/assets/images/avatars/${user.username}.jpeg`}
       alt="user"
       width={40}
       height={40}

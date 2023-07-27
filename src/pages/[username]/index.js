@@ -307,19 +307,6 @@ const handleLogOut = async ()=> {
   }, [username])
 
 
-  // useEffect(() => {
-  //   if(id) {
-  //     setLoading(true)
-  //     const postsCollection =collection(db,'posts') 
-  //     const q = query(postsCollection, where('id','==', id))
-  //     onSnapshot(q, (snapshot)=> {
-  //       const posts = snapshot.docs.map((doc)=> doc.data())
-  //       setPosts(posts)
-  //       setLoading(false)
-  //     })
-  //   }
-
-  // }, [id])
 
 
   useEffect(() => {
@@ -378,7 +365,7 @@ const handleLogOut = async ()=> {
   return (
     <div className="flex flex-row w-full h-full">
     <Head>
-    <title>@{username} | Instagram</title>
+    <title>{` @${username} | Instagram`}</title>
     </Head>
 {/* <!-- First Column - Side Navbar --> */}
 <div className="flex-[.30] invisible sm:visible">
@@ -641,6 +628,7 @@ Log out</Link>
             alt=''
             width={200}
             height={200}
+            priority
             />
         </button>
         </div>
@@ -720,7 +708,7 @@ Log out</Link>
             
             {posts.map((post)=> (
            
-              <Link href={`/${username}/[id]?id=${post.id}`}  as={`/${username}/${post.id}`} key={post.id}>
+              <Link href={`/${username}/[id]?id=${post.id}`} as={`/${username}/${post.id}`} key={post.id} >
             <ProfilePost url={post.image}/>
             </Link>
 
@@ -770,6 +758,7 @@ Log out</Link>
       alt="user"
       width={40}
       height={40}
+      priority
       />
   {/* </div> */}
   <span className="text-lg text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Profile</span>

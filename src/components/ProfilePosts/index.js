@@ -26,7 +26,7 @@ export default function ProfilePost({url}) {
   return (
     <div  className=' overflow-hidden w-full h-full'>
     {/* <Link href={`/${username}/${id}`}> */}
-     <Image className="w-full h-full object-cover"
+     <Image className="w-full h-60 sm:h-80 object-cover"
         src={url}
         alt=''
         width={300}

@@ -190,13 +190,6 @@ if(isLiked) {
 
 
 
-//   window.onload=function(){
-//     document.getElementById('my_button').onclick = function() {
-//         document.getElementsByTagName('input').focus();
-        
-//     };
-// }
-
 
   return (
     <div className='flex flex-col w-[500px] mx-auto pb-2 border-b border-gray-300'>
@@ -241,7 +234,7 @@ if(isLiked) {
     </div>
     {/* Image */}
     <div className='aspect-[16/14] w-full h-[580px] relative flex items-center justify-center'>
-      <Image src={image} alt={caption} fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' className='object-contain w-full' />
+      <Image src={image} alt={caption} fill sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw' className='object-contain w-full' priority />
     </div>
 {/* Icons  */}
     <div className='flex justify-between p-2 text-lg'>

@@ -22,7 +22,7 @@ import {Home, Add, Heart, Messenger, Search, Reels,} from '../SideBar/NavIcons'
 import {IoImagesOutline} from 'react-icons/io5';
 import {AiOutlineLogout} from 'react-icons/ai'
 import { toast } from 'react-hot-toast';
-import img3 from '../../../public/assets/badges/Instagram-logo.png'
+import img3 from '/public/assets/badges/Instagram-logo.png'
 
 export default function Feed() {
   
@@ -285,6 +285,7 @@ const handleClickIcon = ()=> {
         alt="user"
         width={30}
         height={35}
+        style={{ width: 'auto', height: 'auto' }}
         />
     {/* </div> */}
     <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-black">Profile</span>
