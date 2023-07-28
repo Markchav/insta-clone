@@ -7,9 +7,6 @@ import { auth } from '@/lib/firebase'
 import NavIcon from '@/components/SideBar/NavIcon'
 import {Add, Home, Heart, Messenger, Compass, Profile, Search, Reels, Menu, Settings, Bookmark,} from '../SideBar/NavIcons'
 import img3 from '../../../public/assets/badges/Instagram-logo.png'
-// import NavName from '@/components/SideBar/NavName'
-
-
 
 const NAV_ITEMS = [
   {

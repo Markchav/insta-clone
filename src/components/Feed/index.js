@@ -12,7 +12,6 @@ import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } 
 
 import SideNav from '../Navigation';
 import Post from '../Post';
-// import Modal from '../Modal';
 import ModalLayout from '../Modal';
 import User from '../UserSec';
 import Suggestions from '../Suggestions';
@@ -134,8 +133,7 @@ const handleClickIcon = ()=> {
       setPosts(posts)
       setLoading(false)
     })
-  }, [])
-  // console.log(posts)
+  }, []);
   
   useEffect(() => {
     const reader = new FileReader();
@@ -170,13 +168,13 @@ const handleClickIcon = ()=> {
 
   return (
 <div className="flex flex-row w-full h-full">
-{/* <Head>
+<Head>
     <meta
             name="viewport"
             content="width=device-width, initial-scale=0.79, maximum-scale=0.79, user-scalable=no"
           />
 
-    </Head> */}
+    </Head>
   {/* <!-- First Column - Side Navbar --> */}
   <div className="flex-[.30] invisible sm:visible">
     <SideNav/>
@@ -224,9 +222,9 @@ const handleClickIcon = ()=> {
     <div className='fixed sm:hidden top-0 left-0 z-50 w-full h-14 bg-white border-b border-gray-800'>
     <Image alt='Instagram-logo' src={img3} width={150} className=' -mb-14 sm:mb-0 p-4'/>
 
-    <div className='flex items-center justify-center ml-64 gap-4'>
+    <div className='flex items-center justify-center ml-32 gap-3 w-full'>
     <button onClick={handleLogOut} type="button" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm gap-2 px-4 py-2 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-28">
-  <AiOutlineLogout size={20}/>
+  <AiOutlineLogout size={18}/>
   Log out
 </button>
     <div onClick={handleClickIcon} className='flex items-center justify-center'>
@@ -235,6 +233,17 @@ const handleClickIcon = ()=> {
     <Heart size={30}/>
     </div>
 
+
+    {/* <div className='flex items-center justify-center ml-40 gap-4 w-full h-6'>
+    <Link href='/' onClick={handleLogOut} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md gap-2 px-4 py-2 text-center justify-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32">
+    <AiOutlineLogout size={25} className=''/>
+Log out</Link>
+
+    <div onClick={handleClickIcon} className='flex items-center justify-center'>
+    <Add  size={30}/>
+    </div>
+    <Heart size={30}/>
+    </div> */}
 
 
     </div>

@@ -15,7 +15,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { uuidv4 } from '@firebase/util';
-import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc,where,} from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, serverTimestamp, setDoc,where,} from 'firebase/firestore';
 
 import {Home, Add, Heart, Messenger, Search, Reels, Settings} from '/src/components/SideBar/NavIcons'
 import {IoImagesOutline} from 'react-icons/io5';
@@ -209,10 +209,10 @@ onSnapshot(q, (snapshot)=> {
 
 <Head>
     <title>{` @${username} | Instagram`}</title>
-    {/* <meta
+    <meta
             name="viewport"
             content="width=device-width, initial-scale=0.66, maximum-scale=0.66, user-scalable=no"
-          /> */}
+          />
     </Head>
 
 <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
@@ -415,6 +415,7 @@ Log out</Link>
               <ProfileSaved key={id} url={post.image}/>
             )}
             </div>
+            {!bookmarkedPosts || (bookmarkedPosts.length ===0 && <p className='flex mx-auto justify-center content-center mt-10 text-2xl'>No Photos Saved Yet</p>)}
 </div>
 
     </section>

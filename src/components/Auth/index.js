@@ -11,7 +11,6 @@ import {handlePromise} from '@/utils/handlePromise'
 import LoadingOverlay from '../LoadingOverlay'
 import useFetchCurrentUser from '@/utils/fetchCurrentUser'
 
-import {AiFillFacebook} from 'react-icons/ai'
 import {FcGoogle} from 'react-icons/fc'
 import AuthAnimation from '/public/assets/animations/auth-page-animation.json'
 import Lottie from 'react-lottie-player'

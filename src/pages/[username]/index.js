@@ -16,18 +16,14 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { uuidv4 } from '@firebase/util';
-import { collection, doc, onSnapshot, query, serverTimestamp, setDoc,deleteDoc, updateDoc,orderBy,where } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, serverTimestamp, setDoc,where } from 'firebase/firestore';
 
 import {Home, Add, Heart, Messenger, Search, Reels, Settings} from '/src/components/SideBar/NavIcons'
 import {IoImagesOutline} from 'react-icons/io5';
 import {AiOutlineLogout} from 'react-icons/ai'
-import {BiDotsHorizontalRounded} from 'react-icons/bi'
-import {RiShareForwardLine} from 'react-icons/ri'
-import {BsChat,BsBookmark, BsFillBookmarkFill} from 'react-icons/bs'
-import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import { toast } from 'react-hot-toast';
 import img3 from '/public/assets/badges/Instagram-logo.png'
-import img4 from '/public/assets/images/avatars/markchavez_.jpeg' 
+import img4 from '/public/assets/images/avatars/markchavez_.jpeg'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -38,9 +34,6 @@ Modal.setAppElement('#__next');
 export default function UserProfile({id, image, caption, likesCount, savedCount}) {
 
   const [posts, setPosts] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [isBookmarked, setIsBookmark]= useState(false);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState('');
   const [media,setMedia] = useState({
@@ -52,15 +45,13 @@ export default function UserProfile({id, image, caption, likesCount, savedCount}
   const currentImage = useRef(null);
   const comment = useRef(null);
 
-  // const {user} = useContext(GlobalContext)
 
     const router = useRouter()
     const username = router.query.username
 
-    // const postId = router.query.id
 
 
-    const {isUploadPostModalOpen, isProfilePostModalOpen, user} = useContext(GlobalContext);
+    const {isUploadPostModalOpen, user} = useContext(GlobalContext);
   const dispatch = useContext(GlobalDispatchContext);
   
 
@@ -71,15 +62,6 @@ export default function UserProfile({id, image, caption, likesCount, savedCount}
                 isUploadPostModalOpen:false
             }
         });
-}
-
-const closeProfileModal = ()=> {
-  dispatch({
-      type:'SET_IS_PROFILE_POST_MODAL_OPEN', 
-      payload: {
-          isProfilePostModalOpen:false
-      }
-  });
 }
 
 const handleClickIcon = ()=> {
@@ -93,113 +75,6 @@ const handleClickIcon = ()=> {
     }
 }
 
-
-const handlePostOpen = ()=> {
-  dispatch({
-      type:'SET_IS_PROFILE_POST_MODAL_OPEN', 
-      payload: {
-        isProfilePostModalOpen:true
-      }
-  })
-  // router.push(`/${username}/${id}`)
-
-}
-
-const handleLikePost = async ()=> {
-
-  const postLike = {
-    postId: id,
-    userId:auth.currentUser.uid,
-    username
-  };
-  
-  const likeRef = doc(db,`likes/${id}_${auth.currentUser.uid}`);
-  const postRef = doc(db,`posts/${id}`);
-  
-  let updatedLikesCount;
-  
-  
-  if(isLiked) {
-    await deleteDoc(likeRef)
-    if(likesCount) {
-      updatedLikesCount = likesCount -1;
-    } else {
-      updatedLikesCount = 0;
-    }
-    await updateDoc(postRef, {
-      likesCount : updatedLikesCount 
-    });
-  } else {
-    await setDoc(likeRef, postLike);
-    if(likesCount) {
-      updatedLikesCount = likesCount + 1;
-    } else {
-      updatedLikesCount = 1;
-    }
-    await updateDoc(postRef, {
-      likesCount : updatedLikesCount 
-    });
-  }
-    };
-
-    const handleBookmark = async ()=> {
-
-      const postBookmark = {
-        postId:id, 
-        userId:auth.currentUser.uid,
-        username:user.username,
-        image
-      }
-  
-      const bookmarkRef = doc(db,`saved/${id}_${auth.currentUser.uid}`);
-      const postRef = doc(db,`posts/${id}`);
-  
-      let updatedSavedCount;
-  
-      if(isBookmarked) {
-        await deleteDoc(bookmarkRef)
-        if(savedCount) {
-          updatedSavedCount = savedCount -1;
-        } else {
-          updatedSavedCount = 0;
-        }
-        await updateDoc(postRef, {
-          savedCount:updatedSavedCount
-        });
-      } else {
-        await setDoc(bookmarkRef, postBookmark);
-        if(savedCount) {
-          updatedSavedCount = savedCount +1;
-        } else {
-          updatedSavedCount = 1;
-        }
-        await updateDoc(postRef, {
-          savedCount : updatedSavedCount
-        });
-      }
-    };
-
-    const handlePostComment = async (e)=> {
-      e.preventDefault()
-  
-      const commentData = {
-        id:uuidv4(),
-        username:user.username,
-        comment:comment.current.value,
-        createdAt: serverTimestamp()
-      }
-  
-      comment.current.value = '';
-  
-      const commentRef= doc(db,`posts/${id}/comments/${commentData.id}`)
-  
-      await setDoc(commentRef, commentData)
-  
-  
-      // setInput('');
-      // setShowEmoji(false)
-      
-    }
 
 const handlePostMedia = async (url)=> {
   const postId = uuidv4();
@@ -306,70 +181,14 @@ const handleLogOut = async ()=> {
 
   }, [username])
 
-
-
-
-  useEffect(() => {
-    if(id) {
-      const likesRef = collection(db,'likes');
-      const likesQuery = query(likesRef, where('postId','==', id), where('userId','==',auth.currentUser.uid));
-  
-      const unsubscribeLike= onSnapshot(likesQuery, (snapshot)=>{
-        const like = (snapshot.docs.map((doc)=> doc.data()));
-        if(like.length !== 0) {
-          setIsLiked(true);
-        } else {
-          setIsLiked(false);
-        }
-      });
-  
-      const commentsRef = collection(db, `posts/${id}/comments`);
-      const commentsQuery = query(commentsRef, orderBy('createdAt', 'asc'));
-  
-      const unsubscribeComment = onSnapshot(commentsQuery, (snapshot)=> {
-        const comment = snapshot.docs.map((doc)=> doc.data());
-  
-        setComments(comment);
-      })
-  
-      // const postRef = doc(db, 'posts', postId) 
-      const postsCollection =collection(db,'posts') 
-      const q = query(postsCollection, where('id','==', id))
-      onSnapshot(q, (snapshot)=> {
-        const posts = snapshot.docs.map((doc)=> doc.data())
-        setPosts(posts);
-        // console.log(posts)
-      })
-  
-      const bookmarksRef = collection(db, 'saved');
-      const bookmarksQuery = query(bookmarksRef, where('postId','==', id), where('userId','==',auth.currentUser.uid))
-  
-      const unsubscribeBookmark = onSnapshot(bookmarksQuery, (snapshot)=> {
-        const bookmark = snapshot.docs.map((doc)=> doc.data());
-  
-        if(bookmark.length !== 0 ) {
-          setIsBookmark(true);
-        } else {
-          setIsBookmark(false);
-        }
-      })
-      return ()=> {
-        unsubscribeLike();
-        unsubscribeComment();
-        unsubscribeBookmark();
-      }
-    }
-
-  }, [id]);
-
   return (
     <div className="flex flex-row w-full h-full">
     <Head>
     <title>{` @${username} | Instagram`}</title>
-    {/* <meta
+    <meta
             name="viewport"
             content="width=device-width, initial-scale=0.66, maximum-scale=0.66, user-scalable=no"
-          /> */}
+          />
           
     </Head>
 {/* <!-- First Column - Side Navbar --> */}
@@ -412,144 +231,6 @@ const handleLogOut = async ()=> {
   </div>
 </ModalLayout>
 
-{/* <ModalLayout closeModal={closeProfileModal} isOpen={isProfilePostModalOpen}>
-<div className="w-screen h-screen max-w-6xl max-h-[90vh] flex flex-row">
-                    <div className="w-3/5">
-                        <Image src={img4} className="" alt=""/>
-                    </div>
-
-                    <div className="w-2/5 relative pt-16">
-                        <div className="absolute top-0 w-full p-3 flex flex-row border-b">
-                            <div className="flex-1">
-                                <Link href={`/${username}`} className="">
-                                    <Image
-                                        className="rounded-full w-8 max-w-none inline"
-                                        src={`/../public/assets/images/avatars/${username}.jpeg`}
-                                        alt=""
-                                        width={50}
-                                        height={50}
-                                    />{" "}
-                                    <span className="font-medium text-sm ml-2">
-                                        {username}
-                                    </span>
-                                </Link>
-                            </div>
-                            <div className="">
-                                <a className="" >
-                                    <BiDotsHorizontalRounded className='text-lg text-black cursor-pointer hover:text-black/50'/>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div className="overflow-scroll h-full pb-48">
-                            <div className="flex flex-row p-3">
-                                <div>
-                                    <Image
-                                    className="rounded-full w-8  max-w-none inline"
-                                    src={`/../public/assets/images/avatars/${username}.jpeg`}
-                                    alt="user"
-                                    width={50}
-                                    height={50}
-                                    />
-                                </div>
-                                <div className="">
-                                    <div className="px-3 text-sm">
-                                        <span className="font-medium mr-2">
-                                            {username}
-                                        </span>
-                                        {caption}
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            {comments &&
-                                comments.map((commentData) => (
-                                    <div className="flex flex-row p-3"
-                                        key={commentData.id}
-                                    >
-                                        <div className="">
-                                            <Image
-                                                className="rounded-full w-8 inline max-w-none"
-                                                src={img4}
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div className="grow relative">
-                                            <div className="px-4 text-sm">
-                                                <span className="font-medium mr-2">
-                                                    <Link href={`/${commentData.username}`} className=''>{commentData.username}</Link>
-                                                </span>
-                                                {commentData.comment}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-
-                        <div className="absolute bottom-0 w-full border-t bg-white">
-                            <div className="header p-3 flex flex-row text-2xl w-full">
-                                <div className="flex">
-                                    <a onClick={handleLikePost} className='mr-3 cursor-pointer'>
-                                    {
-          isLiked ? (<AiFillHeart size={25} className='text-red-500 cursor-pointer hover:text-red-500/50'/>)
-          : (<AiOutlineHeart size={25} className='text-black cursor-pointer hover:text-black/50'/>)
-        }
-                                    </a>
-                                    <a className="mr-3 cursor-pointer">
-                                    <BsChat size={23} className='-scale-x-90 text-black cursor-pointer hover:text-black/50 '/>
-                                    </a>
-                                    <a className="cursor-pointer">
-                                    <RiShareForwardLine size={25} className='text-black cursor-pointer hover:text-black/50'/>
-                                    </a>
-                                </div>
-                                <div onClick={handleBookmark} className="">
-                                {
-        isBookmarked ? (<BsFillBookmarkFill size={22} className='text-black cursor-pointer hover:text-black/50'/>) 
-        : (<BsBookmark size={22} className='text-black cursor-pointer hover:text-black/50'/>)
-      }
-                                </div>
-                            </div>
-                            <div className="font-medium text-sm px-3">
-                            {likesCount ? `${likesCount} likes` : 'Be the first to like!'}
-                            </div>
-                            <div className="text-gray-500 uppercase px-3 text-xs tracking-wide my-3">
-                            date
-                            </div>
-
-                            <form onSubmit={handlePostComment} className="p-3 flex flex-row border-t">
-                                <div className="flex items-center">
-
-                                </div>
-                                <div className="flex-1 pr-3 py-1">
-                                    <input
-                                        className="w-full px-3 py-1 text-sm outline-0"
-                                        type="text"
-                                        placeholder="Add a comment..."
-                                        ref={comment}
-                                        name={`comment ${id}`} 
-                                        id={`comment ${id}`}
-                                    />
-                                </div>
-                                <div className="flex items-center text-sm">
-                                    <button
-                                        className="'text-[#0095F6] font-semibold hover:text-[#00376B]'"
-                                        href="#"
-                                    >
-                                        Post
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-</ModalLayout> */}
-
-{/* <Modal isOpen={!!router.query.id} onRequestClose={()=>router.push(`/${username}`)} portalClassName='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
-  <div className=''>
-  IN the modal {}
-  </div>
-</Modal> */}
 
 <div className='grid sm:grid-cols-3 grid-cols-1 gap-[50px] max-w-screen-lg mx-auto mt-10 w-full'>
     <div className='w-full col-span-2 flex flex-col space-y-5'>
@@ -705,22 +386,12 @@ Log out</Link>
     </div>
 
     {/* <!--post images--> */}
-   
-    {/* onClick={()=>router.push(`/${username}/${postId}`)} */}
-    {/* onClick={handlePostOpen} */}
 
-            <div   className='grid grid-cols-3 gap-1 lg:gap-6 pt-5 pb-10 cursor-pointer'>
+            <div className='grid grid-cols-3 gap-1 lg:gap-6 pt-5 pb-10'>
             
             {posts.map((post)=> (
-           
-              <Link href={`/${username}/[id]?id=${post.id}`} as={`/${username}/${post.id}`} key={post.id} >
-            <ProfilePost url={post.image}/>
-            </Link>
-
-
+              <ProfilePost key={post.id} url={post.image}/>
             )
-           
-
             )}
             </div>
             {!posts || (posts.length ===0 && <p className='flex mx-auto justify-center content-center mt-10 text-2xl'>No Photos Yet</p>)}

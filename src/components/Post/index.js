@@ -26,20 +26,6 @@ export default function Post({id, image, username, caption, likesCount, savedCou
   const comment = useRef(null);
 
   const {user}= useContext(GlobalContext)
-  // const [showEmoji,setShowEmoji]=useState(false)
-  // const [input,setInput] = useState('')
-
-  // const addEmoji = (e)=> {
-  //   const sym = e.unified.split("_");
-  //   const codeArray = [];
-  //   sym.forEach((el)=> codeArray.push("0x"+el))
-  //   let emoji = String.fromCodePoint(...codeArray);
-  //   setInput(input + emoji);
-  // }
-
-  // const handleEmojis = ()=> {
-  //   setShowEmoji(!showEmoji);
-  // }
 
   const handleLikePost = async ()=> {
 
@@ -132,9 +118,6 @@ if(isLiked) {
 
     await setDoc(commentRef, commentData)
 
-
-    // setInput('');
-    // setShowEmoji(false)
     
   }
 
@@ -187,9 +170,6 @@ if(isLiked) {
       unsubscribeBookmark();
     }
   }, [id]);
-
-
-
 
   return (
     <div className='flex flex-col w-[500px] mx-auto pb-2 border-b border-gray-300'>
@@ -300,17 +280,9 @@ if(isLiked) {
       className='w-full outline-none text-sm'
       placeholder='Add a comment...'
       ref={comment}
-      // value={input}
-      // onChange={({target})=> setComments(target.value)}
+
       />
       
-      {/* <span onClick={handleEmojis} className='flex space-x-2 items-center'>
-      <BsEmojiSmile className='text-sm text-gray-500 cursor-pointer hover:text-slate-300' />
-      </span> */}
-
-      {/* { showEmoji && <div className='absolute right-[20%] top-[75%]'>
-      <Picker data={data} onEmojiSelect={addEmoji} emojiSize={20} emojiButtonSize={34} maxFrequentRows={0}/>
-      </div>} */}
 
       <button className='text-[#0095F6] font-semibold hover:text-[#00376B]' >
       Post

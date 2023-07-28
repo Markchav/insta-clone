@@ -1,5 +1,4 @@
 import { Dialog, Transition } from '@headlessui/react'
-// import {AiOutlineClose} from 'react-icons/ai'
 import { Fragment } from 'react'
 
 export default function ModalLayout({children, isOpen, closeModal}) {
@@ -20,9 +19,6 @@ return (
         >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
-        {/* <a className='absolute bottom-[1020px] right-2 text-2xl' href=''>
-            <AiOutlineClose/>
-        </a> */}
 
         <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">

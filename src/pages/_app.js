@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
         <title>Instagram</title>
         {/* <meta
             name="viewport"
-            content="width=device-width, initial-scale=.80, maximum-scale=1.0, user-scalable=no"
+            content="width=device-width, initial-scale=.78, maximum-scale=1.0, user-scalable=no"
           /> */}
 			    </Head>
       <Toaster/>

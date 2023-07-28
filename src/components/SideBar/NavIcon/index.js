@@ -15,13 +15,6 @@ export default function NavIcon({Icon,name}) {
             })
         }
         if(name === 'Home') {
-            // dispatch({
-            //     type:'SET_LOADING', 
-            //     payload: {
-            //         isLoading:true
-            //     }
-            // })
-            // <LoadingOverlay/>
             window.location= '/'
         }
     }

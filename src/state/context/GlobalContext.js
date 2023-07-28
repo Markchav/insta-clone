@@ -12,7 +12,6 @@ const initialState = {
     isOnboarded:false,
     isLoading:true,
     isUploadPostModalOpen: false,
-    isProfilePostModalOpen: false
 }
 
 export const GlobalContext  = createContext(initialState)
