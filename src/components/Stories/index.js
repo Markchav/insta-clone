@@ -34,12 +34,6 @@ export default function Stories() {
     
   return (
     <div className='relative sm:w-full w-[500px]'>
-    {/* <div className='fixed top-0 sm:hidden border-b border-gray-800 pb-3 w-full'>
-    <Image alt='Instagram-logo' src={img3} width={175} className='mx-auto -mb-14 sm:mb-0 p-4'/>
-    <div onClick={handleClickIcon} className='flex items-center justify-center ml-44'>
-    <Add  size={30}/>
-    </div>
-    </div> */}
 
         <div onScroll={onScroll} ref={storiesRef} className='bg-white overflow-x-scroll max-w-3xl p-2 flex space-x-4 border-gray-200 scroll-smooth scrollbar-hide'>
         {

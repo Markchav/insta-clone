@@ -13,6 +13,7 @@ return (
             height={40}
             className='rounded-full h-14 w-14 '
             priority
+            unoptimized={true}
             />
         </div>
     </div>

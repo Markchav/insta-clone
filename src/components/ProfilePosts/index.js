@@ -7,26 +7,10 @@ import { collection, doc, onSnapshot, query, serverTimestamp, setDoc,deleteDoc, 
 import {db,storage} from '/src/lib/firebase';
 export default function ProfilePost({url}) {
 
-  // useEffect(()=> {
-  //   if(id){
-  //     const postsCollection =collection(db,'posts') 
-  //     const q = query(postsCollection, where('id','==', id))
-  //     onSnapshot(q, (snapshot)=> {
-  //       const posts = snapshot.docs.map((doc)=> doc.data())
-  //       setPosts(posts);
-  //       // console.log(posts)
-  //     })
-  //   }
-
-  // })
-
-  // const router = useRouter()
-  // const username = router.query.username
-  // const id = router.query.id
   return (
     <div  className=' overflow-hidden w-full h-full'>
     {/* <Link href={`/${username}/${id}`}> */}
-     <Image className="w-full h-60 sm:h-80 object-cover"
+    <Image className="w-full h-60 sm:h-80 object-cover"
         src={url}
         alt=''
         width={300}

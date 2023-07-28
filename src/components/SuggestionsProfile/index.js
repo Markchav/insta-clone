@@ -11,6 +11,7 @@ return (
         height={40}
         className='rounded-full'
         priority
+        unoptimized={true}
     />
 
     <div className='flex-1 ml-4 cursor-pointer'>

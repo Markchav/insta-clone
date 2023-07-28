@@ -360,7 +360,7 @@ export default function ModalPost({image, username, caption, likesCount, savedCo
   <SideNav/>
     </div>
 <div className='flex-[.50] mx-auto justify-center items-center mt-10'>
-{/* <ModalData/>  */}
+
 
 {/* <div className='fixed sm:hidden top-0 left-0 z-50 w-full h-16 bg-white border-b border-gray-800 mt-3'>
     <Link href='/'><Image alt='Instagram-logo' src={img3} width={175} className=' -mb-14 sm:mb-0 p-4'/>
@@ -415,140 +415,7 @@ Log out</Link>
       </div>
   </div>
 </ModalLayout>
-{/* <ModalLayout closeModal={closeProfileModal} isOpen={isProfilePostModalOpen}>
-<div className="w-screen h-screen max-w-6xl max-h-[90vh] flex flex-row">
-                    <div className="w-3/5">
-                        <Image src={img4} className="" alt=""/>
-                    </div>
 
-                    <div className="w-2/5 relative pt-16">
-                        <div className="absolute top-0 w-full p-3 flex flex-row border-b">
-                            <div className="flex-1">
-                                <Link href={`/${username}`} className="">
-                                    <Image
-                                        className="rounded-full w-8 max-w-none inline"
-                                        src={`/../public/assets/images/avatars/${username}.jpeg`}
-                                        alt=""
-                                        width={50}
-                                        height={50}
-                                    />{" "}
-                                    <span className="font-medium text-sm ml-2">
-                                        {username}
-                                    </span>
-                                </Link>
-                            </div>
-                            <div className="">
-                                <a className="" >
-                                    <BiDotsHorizontalRounded className='text-lg text-black cursor-pointer hover:text-black/50'/>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div className="overflow-scroll h-full pb-48">
-                            <div className="flex flex-row p-3">
-                                <div>
-                                    <Image
-                                    className="rounded-full w-8  max-w-none inline"
-                                    src={`/../public/assets/images/avatars/${username}.jpeg`}
-                                    alt="user"
-                                    width={50}
-                                    height={50}
-                                    />
-                                </div>
-                                <div className="">
-                                    <div className="px-3 text-sm">
-                                        <span className="font-medium mr-2">
-                                            {username}
-                                        </span>
-                                        {caption}
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            {comments &&
-                                comments.map((commentData) => (
-                                    <div className="flex flex-row p-3"
-                                        key={commentData.id}
-                                    >
-                                        <div className="">
-                                            <Image
-                                                className="rounded-full w-8 inline max-w-none"
-                                                src={img4}
-                                                alt=""
-                                            />
-                                        </div>
-                                        <div className="grow relative">
-                                            <div className="px-4 text-sm">
-                                                <span className="font-medium mr-2">
-                                                    <Link href={`/${commentData.username}`} className=''>{commentData.username}</Link>
-                                                </span>
-                                                {commentData.comment}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>
-
-                        <div className="absolute bottom-0 w-full border-t bg-white">
-                            <div className="header p-3 flex flex-row text-2xl w-full">
-                                <div className="flex">
-                                    <a onClick={handleLikePost} className='mr-3 cursor-pointer'>
-                                    {
-          isLiked ? (<AiFillHeart size={25} className='text-red-500 cursor-pointer hover:text-red-500/50'/>)
-          : (<AiOutlineHeart size={25} className='text-black cursor-pointer hover:text-black/50'/>)
-        }
-                                    </a>
-                                    <a className="mr-3 cursor-pointer">
-                                    <BsChat size={23} className='-scale-x-90 text-black cursor-pointer hover:text-black/50 '/>
-                                    </a>
-                                    <a className="cursor-pointer">
-                                    <RiShareForwardLine size={25} className='text-black cursor-pointer hover:text-black/50'/>
-                                    </a>
-                                </div>
-                                <div onClick={handleBookmark} className="">
-                                {
-        isBookmarked ? (<BsFillBookmarkFill size={22} className='text-black cursor-pointer hover:text-black/50'/>) 
-        : (<BsBookmark size={22} className='text-black cursor-pointer hover:text-black/50'/>)
-      }
-                                </div>
-                            </div>
-                            <div className="font-medium text-sm px-3">
-                            {likesCount ? `${likesCount} likes` : 'Be the first to like!'}
-                            </div>
-                            <div className="text-gray-500 uppercase px-3 text-xs tracking-wide my-3">
-                            date
-                            </div>
-
-                            <form onSubmit={handlePostComment} className="p-3 flex flex-row border-t">
-                                <div className="flex items-center">
-
-                                </div>
-                                <div className="flex-1 pr-3 py-1">
-                                    <input
-                                        className="w-full px-3 py-1 text-sm outline-0"
-                                        type="text"
-                                        placeholder="Add a comment..."
-                                        ref={comment}
-                                        name={`comment ${id}`} 
-                                        id={`comment ${id}`}
-                                    />
-                                </div>
-                                <div className="flex items-center text-sm">
-                                    <button
-                                        className="'text-[#0095F6] font-semibold hover:text-[#00376B]'"
-                                        href="#"
-                                    >
-                                        Post
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-</ModalLayout> */}
-{/* 
-{id && <ModalPortal component={ModalData}/>} */}
 
 <div className="w-screen h-screen max-w-6xl sm:max-h-[90vh] flex sm:flex-row flex-col">
                     <div className="sm:w-3/5 w-full h-full justify-center">
@@ -562,7 +429,7 @@ Log out</Link>
                                         alt=""
                                         width={50}
                                         height={50}
-                                    />{" "}
+                                    />
                                     <span className="font-medium text-sm ml-2">
                                         {post.username}
                                     </span>
