@@ -19,9 +19,9 @@ import Stories from '../Stories';
 
 import {Home, Add, Heart, Messenger, Search, Reels,} from '../SideBar/NavIcons'
 import {IoImagesOutline} from 'react-icons/io5';
-import {AiOutlineLogout} from 'react-icons/ai'
+import {AiOutlineLogout} from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
-import img3 from '/public/assets/badges/Instagram-logo.png'
+import img3 from '/public/assets/badges/Instagram-logo.png';
 
 export default function Feed() {
   
@@ -171,7 +171,7 @@ const handleClickIcon = ()=> {
 <Head>
     <meta
             name="viewport"
-            content="width=device-width, initial-scale=0.79, maximum-scale=0.79, user-scalable=no"
+            content="width=device-width, initial-scale=0.77, maximum-scale=0.77, user-scalable=no"
           />
 
     </Head>

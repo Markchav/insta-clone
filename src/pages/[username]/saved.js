@@ -211,9 +211,9 @@ onSnapshot(q, (snapshot)=> {
     <title>{` @${username} | Instagram`}</title>
     <meta
             name="viewport"
-            content="width=device-width, initial-scale=0.66, maximum-scale=0.66, user-scalable=no"
+            content="width=device-width, initial-scale=0.65, maximum-scale=0.65, user-scalable=no"
           />
-    </Head>
+</Head>
 
 <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
   <div className='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>

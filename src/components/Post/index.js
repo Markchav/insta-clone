@@ -176,10 +176,10 @@ if(isLiked) {
     <div className='flex bg-white p-2 justify-between items-center'>
       <div className='flex justify-center items-center space-x-2'>
 {/* Profile img */}
-      <div className='h-10 w-10 bg-black border-2 rounded-full'>
+      <div className='h-10 w-10 border-2 rounded-full'>
       <Link href={`/${username}`}>
       <Image
-        className="rounded-full w-16 flex mr-3"
+        className="rounded-full h-9 w-auto flex mr-3"
         src={`/assets/images/avatars/${username}.jpeg`}
         alt="user"
         width={50}
