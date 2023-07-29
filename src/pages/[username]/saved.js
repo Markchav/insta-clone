@@ -216,7 +216,7 @@ onSnapshot(q, (snapshot)=> {
 </Head>
 
 <Modal closeModal={closeModal} isOpen={isUploadPostModalOpen}>
-  <div className='w-screen h-screen max-w-xl max-h-[75vh] flex flex-col items-center'>
+  <div className='w-screen h-screen max-w-xl sm:max-w-2xl max-h-[60vh] sm:max-h-[75vh] flex flex-col items-center'>
     <div className='w-full pb-2 font-semibold text-center border-b border-black'>
       Create new post
     </div>
