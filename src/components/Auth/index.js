@@ -5,6 +5,7 @@ import {
   GlobalDispatchContext,
 } from "@/state/context/GlobalContext";
 import Image from "next/image";
+import Link from "next/link";
 
 import { auth, db, signInWithGoogle } from "@/lib/firebase";
 import {
@@ -314,6 +315,12 @@ export default function Auth() {
             to securely manage user sessions. Not affiliated with Instagram or
             Meta.
           </p>
+          <Link
+            href="/privacy"
+            className="text-xs text-gray-500 underline hover:text-gray-800"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </div>
