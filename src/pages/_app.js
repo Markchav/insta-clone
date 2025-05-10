@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }) {
   return (
     <GlobalContextProvider>
       <Head>
-        <link rel="icon" href="/favicon/favicon.ico" />
+        <link rel="icon" href="/favicon/favicon-bird.ico" />
         <title>PicBurst</title>
         {/* <meta
             name="viewport"
