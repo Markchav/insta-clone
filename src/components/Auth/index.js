@@ -28,10 +28,16 @@ import useFetchCurrentUser from "@/utils/fetchCurrentUser";
 
 import { FcGoogle } from "react-icons/fc";
 import AuthAnimation from "/public/assets/animations/auth-page-animation.json";
-import Lottie from "react-lottie-player";
+// import Lottie from "react-lottie-player";
 import { toast } from "react-hot-toast";
 
 import img4 from "/public/assets/badges/PicBurst_Transparent.png";
+
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("react-lottie-player"), {
+  ssr: false,
+});
 
 export default function Auth() {
   const [isLoginForm, setIsLoginForm] = useState(false);
