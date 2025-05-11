@@ -2,28 +2,26 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    unoptimized: true, // <-- This line disables image optimization
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
-        // port: '',
-        // pathname: '/account123/**',
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
       },
       {
-        protocol:'https',
-        hostname: 'cloudflare-ipfs.com'
+        protocol: "https",
+        hostname: "cloudflare-ipfs.com",
       },
       {
-        protocol:'https',
-        hostname:'avatars.githubusercontent.com'
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
       },
       {
-        protocol:'https',
-        hostname:'images.unsplash.com'
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
     ],
   },
+};
 
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;
