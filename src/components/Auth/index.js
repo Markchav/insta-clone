@@ -189,7 +189,7 @@ export default function Auth() {
   return (
     <div className=" h-screen w-screen flex items-center justify-center">
       <div className="flex w-4/5 h-4/5">
-        <div className="w-full h-full">
+        <div className="w-full h-full hidden sm:block">
           <Lottie
             loop
             animationData={AuthAnimation}
@@ -324,7 +324,7 @@ export default function Auth() {
           </p>
           <Link
             href="/privacy"
-            className="text-xs text-gray-500 underline hover:text-gray-800"
+            className="text-xs text-gray-500 underline hover:text-gray-800 text-center sm:text-left"
           >
             Privacy Policy
           </Link>
