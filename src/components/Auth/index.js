@@ -206,6 +206,7 @@ export default function Auth() {
                 alt="PicBurst-logo"
                 src="/assets/badges/PicBurst_Transparent.png"
                 width={175}
+                height={100}
                 className="mx-auto -mb-14 sm:mb-0"
               />
               PicBurst
