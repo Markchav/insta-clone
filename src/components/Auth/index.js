@@ -204,7 +204,7 @@ export default function Auth() {
             <div className="tracking-wider text-[52px] sm:text-xs my-2 text-transparent">
               <Image
                 alt="PicBurst-logo"
-                src={img4}
+                src="/assets/badges/PicBurst_Transparent.png"
                 width={175}
                 className="mx-auto -mb-14 sm:mb-0"
               />
